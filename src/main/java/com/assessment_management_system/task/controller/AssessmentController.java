@@ -1,24 +1,37 @@
 package com.assessment_management_system.task.controller;
 
 import com.assessment_management_system.task.dto.AssessmentResponse;
+import com.assessment_management_system.task.dto.AssessmentResultResponse;
 import com.assessment_management_system.task.dto.CreateAssessmentRequest;
+import com.assessment_management_system.task.dto.CreateResultRequest;
 import com.assessment_management_system.task.dto.UpdateAssessmentRequest;
+import com.assessment_management_system.task.service.AssessmentResultService;
 import com.assessment_management_system.task.service.AssessmentService;
 import jakarta.validation.Valid;
 import java.net.URI;
 import java.util.List;
-
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/assessments")
 public class AssessmentController {
 
     private final AssessmentService assessmentService;
+    private final AssessmentResultService resultService;
 
-    public AssessmentController(AssessmentService assessmentService) {
+    public AssessmentController(
+            AssessmentService assessmentService,
+            AssessmentResultService resultService
+    ) {
         this.assessmentService = assessmentService;
+        this.resultService = resultService;
     }
 
     @PostMapping
@@ -43,5 +56,19 @@ public class AssessmentController {
             @Valid @RequestBody UpdateAssessmentRequest request
     ) {
         return assessmentService.update(id, request);
+    }
+
+    @PostMapping("/{id}/result")
+    public ResponseEntity<AssessmentResultResponse> createResult(
+            @PathVariable Long id,
+            @Valid @RequestBody CreateResultRequest request
+    ) {
+        AssessmentResultResponse created = resultService.create(id, request);
+        return ResponseEntity.created(URI.create("/assessments/" + id + "/result")).body(created);
+    }
+
+    @GetMapping("/{id}/result")
+    public AssessmentResultResponse getResult(@PathVariable Long id) {
+        return resultService.findByAssessmentId(id);
     }
 }

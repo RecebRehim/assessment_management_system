@@ -33,6 +33,8 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET, "/assessments").hasAnyRole("ADMIN", "ANALYST")
                         .requestMatchers(HttpMethod.GET, "/assessments/{id}").hasAnyRole("ADMIN", "ANALYST")
                         .requestMatchers(HttpMethod.PUT, "/assessments/{id}").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.POST, "/assessments/{id}/result").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/assessments/{id}/result").hasAnyRole("ADMIN", "ANALYST")
                         .anyRequest().authenticated()
                 );
         return http.build();
