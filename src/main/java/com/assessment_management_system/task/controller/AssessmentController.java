@@ -30,4 +30,9 @@ public class AssessmentController {
     public List<AssessmentResponse> findAll() {
         return assessmentService.findAll();
     }
+
+    @GetMapping("/{id}")
+    public AssessmentResponse findById(@PathVariable Long id) {
+        return assessmentService.findById(id);
+    }
 }
