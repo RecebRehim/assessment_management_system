@@ -1,10 +1,12 @@
 package com.assessment_management_system.task.controller;
 
+import com.assessment_management_system.task.dto.AiSummaryResponse;
 import com.assessment_management_system.task.dto.AssessmentResponse;
 import com.assessment_management_system.task.dto.AssessmentResultResponse;
 import com.assessment_management_system.task.dto.CreateAssessmentRequest;
 import com.assessment_management_system.task.dto.CreateResultRequest;
 import com.assessment_management_system.task.dto.UpdateAssessmentRequest;
+import com.assessment_management_system.task.service.AiSummaryService;
 import com.assessment_management_system.task.service.AssessmentResultService;
 import com.assessment_management_system.task.service.AssessmentService;
 import jakarta.validation.Valid;
@@ -25,13 +27,16 @@ public class AssessmentController {
 
     private final AssessmentService assessmentService;
     private final AssessmentResultService resultService;
+    private final AiSummaryService aiSummaryService;
 
     public AssessmentController(
             AssessmentService assessmentService,
-            AssessmentResultService resultService
+            AssessmentResultService resultService,
+            AiSummaryService aiSummaryService
     ) {
         this.assessmentService = assessmentService;
         this.resultService = resultService;
+        this.aiSummaryService = aiSummaryService;
     }
 
     @PostMapping
@@ -70,5 +75,10 @@ public class AssessmentController {
     @GetMapping("/{id}/result")
     public AssessmentResultResponse getResult(@PathVariable Long id) {
         return resultService.findByAssessmentId(id);
+    }
+
+    @PostMapping("/{id}/ai-summary")
+    public AiSummaryResponse generateAiSummary(@PathVariable Long id) {
+        return aiSummaryService.generateSummary(id);
     }
 }
