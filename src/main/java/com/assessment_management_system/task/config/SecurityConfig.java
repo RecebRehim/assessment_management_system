@@ -29,6 +29,7 @@ public class SecurityConfig {
                 .httpBasic(Customizer.withDefaults())
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.POST, "/users").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.POST, "/assessments").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 );
         return http.build();
