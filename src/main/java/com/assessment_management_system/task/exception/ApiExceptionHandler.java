@@ -53,6 +53,16 @@ public class ApiExceptionHandler {
         return problem;
     }
 
+    @ExceptionHandler(AiServiceUnavailableException.class)
+    public ProblemDetail handleAiUnavailable(AiServiceUnavailableException ex) {
+        ProblemDetail problem = ProblemDetail.forStatusAndDetail(
+                HttpStatus.SERVICE_UNAVAILABLE,
+                ex.getMessage()
+        );
+        problem.setTitle("AI Service Unavailable");
+        return problem;
+    }
+
     private Map<String, String> toFieldError(FieldError fieldError) {
         return Map.of(
                 "field", fieldError.getField(),
