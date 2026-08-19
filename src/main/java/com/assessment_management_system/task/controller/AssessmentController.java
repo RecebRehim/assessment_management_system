@@ -2,6 +2,7 @@ package com.assessment_management_system.task.controller;
 
 import com.assessment_management_system.task.dto.AssessmentResponse;
 import com.assessment_management_system.task.dto.CreateAssessmentRequest;
+import com.assessment_management_system.task.dto.UpdateAssessmentRequest;
 import com.assessment_management_system.task.service.AssessmentService;
 import jakarta.validation.Valid;
 import java.net.URI;
@@ -34,5 +35,13 @@ public class AssessmentController {
     @GetMapping("/{id}")
     public AssessmentResponse findById(@PathVariable Long id) {
         return assessmentService.findById(id);
+    }
+
+    @PutMapping("/{id}")
+    public AssessmentResponse update(
+            @PathVariable Long id,
+            @Valid @RequestBody UpdateAssessmentRequest request
+    ) {
+        return assessmentService.update(id, request);
     }
 }
