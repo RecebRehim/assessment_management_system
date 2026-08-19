@@ -30,6 +30,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.POST, "/users").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.POST, "/assessments").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/assessments").hasAnyRole("ADMIN", "ANALYST")
                         .anyRequest().authenticated()
                 );
         return http.build();
