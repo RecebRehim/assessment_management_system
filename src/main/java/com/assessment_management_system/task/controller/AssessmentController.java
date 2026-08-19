@@ -66,4 +66,9 @@ public class AssessmentController {
         AssessmentResultResponse created = resultService.create(id, request);
         return ResponseEntity.created(URI.create("/assessments/" + id + "/result")).body(created);
     }
+
+    @GetMapping("/{id}/result")
+    public AssessmentResultResponse getResult(@PathVariable Long id) {
+        return resultService.findByAssessmentId(id);
+    }
 }
