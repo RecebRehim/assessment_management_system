@@ -5,11 +5,10 @@ import com.assessment_management_system.task.dto.CreateAssessmentRequest;
 import com.assessment_management_system.task.service.AssessmentService;
 import jakarta.validation.Valid;
 import java.net.URI;
+import java.util.List;
+
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/assessments")
@@ -25,5 +24,10 @@ public class AssessmentController {
     public ResponseEntity<AssessmentResponse> create(@Valid @RequestBody CreateAssessmentRequest request) {
         AssessmentResponse created = assessmentService.create(request);
         return ResponseEntity.created(URI.create("/assessments/" + created.id())).body(created);
+    }
+
+    @GetMapping
+    public List<AssessmentResponse> findAll() {
+        return assessmentService.findAll();
     }
 }
